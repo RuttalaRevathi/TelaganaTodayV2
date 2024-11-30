@@ -88,7 +88,7 @@ const TopTabNavigator = () => {
       <TopTab.Screen name="NRI" component={Nri} options={{ tabBarLabel: 'NRI' }} />
       <TopTab.Screen name="Viewpoint" component={Viewpoint} options={{ tabBarLabel: 'Viewpoint' }} />
       <TopTab.Screen name="Cartoon" component={CartoonScreen} options={{ tabBarLabel: 'Cartoon' }} />
-      <TopTab.Screen name="Columuns" component={Columuns} options={{ tabBarLabel: 'Columuns' }} />
+      <TopTab.Screen name="Columns" component={Columuns} options={{ tabBarLabel: 'Columns' }} />
       <TopTab.Screen name="Education" component={Education} options={{ tabBarLabel: 'Education Today' }} />
       <TopTab.Screen name="Reviews" component={Reviews} options={{ tabBarLabel: 'Reviews' }} />
       <TopTab.Screen name="Property" component={Property} options={{ tabBarLabel: 'Property' }} />

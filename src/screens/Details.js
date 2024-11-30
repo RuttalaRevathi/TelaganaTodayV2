@@ -13,6 +13,7 @@ import {
   ImageBackground,
   Linking,
   TouchableWithoutFeedback,
+  Platform
 } from 'react-native';
 import {
   blackcolor,
@@ -259,7 +260,7 @@ const Details = ({
                       p, li { font-family: 'Faustina', sans-serif; line-height: 1.2; padding: 0px 8px; color: #000; font-weight: 500; font-size: ${fontSize}px; }
                     </style>
                   `,
-                        baseUrl: 'https://twitter.com',
+                        baseUrl: Platform.OS === 'android' ? 'https://twitter.com' : '',
                       }}
                       onShouldStartLoadWithRequest={request => {
                         // Check if the URL should be opened in an external browser

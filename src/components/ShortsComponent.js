@@ -65,7 +65,7 @@ class ShortsComponent extends React.PureComponent {
           elevation: 4,
           marginHorizontal: 16,
         }}>
-        <ScrollView>
+        {/* <ScrollView> */}
           <TouchableOpacity
             onPress={() => {
               this.props.navigation.navigate('Details', {
@@ -123,7 +123,7 @@ class ShortsComponent extends React.PureComponent {
               </View>
             </View>
           </TouchableOpacity>
-        </ScrollView>
+        {/* </ScrollView> */}
       </View>
     );
   }

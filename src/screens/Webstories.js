@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, ScrollView, Platform } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { commonstyles } from '../styles/commonstyles';
 import WebView from 'react-native-webview';
@@ -62,7 +62,7 @@ const Webstories = ({ navigation, route }) => {
               source={{
                 html: (source1 +=
                   "<style>@import url('https://fonts.googleapis.com/css2?family=TTLogo&display=swap');p strong, span, p span{font-family: 'TTLogo', sans-serif;}p,li{font-family: 'TTLogo', sans-serif;line-height:1.6;padding:0px 8px;color:#000;font-weight:500;font-size:18px}</style>"),
-                baseUrl: 'https://twitter.com',
+                baseUrl: Platform.OS === 'android' ? 'https://twitter.com' : '',
               }}
               scalesPageToFit={false}
               viewportContent={'width=device-width, user-scalable=no'}

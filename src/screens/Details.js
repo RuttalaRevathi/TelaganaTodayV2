@@ -235,7 +235,7 @@ const Details = ({
                       style={{
                         width: Dimensions.get('window').width - 15,
                         marginTop: 10,
-                        pointerEvents: 'none',
+                        pointerEvents: 'auto',
                       }}
                       customStyle={`
                   * { font-family: 'Faustina'; line-height: 20px; -webkit-user-select: none; -webkit-touch-callout: none; }
@@ -276,6 +276,7 @@ const Details = ({
                       javaScriptEnabled={true}
                       scalesPageToFit={false}
                       allowsFullscreenVideo={true}
+                      scrollEnabled={false}
                       viewportContent={'width=device-width, user-scalable=no'}
                     />
                     // </TouchableWithoutFeedback>

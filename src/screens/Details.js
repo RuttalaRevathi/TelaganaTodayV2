@@ -13,6 +13,7 @@ import {
   ImageBackground,
   Linking,
   TouchableWithoutFeedback,
+  Platform
 } from 'react-native';
 import {
   blackcolor,
@@ -234,7 +235,7 @@ const Details = ({
                       style={{
                         width: Dimensions.get('window').width - 15,
                         marginTop: 10,
-                        pointerEvents: 'none',
+                        pointerEvents: 'auto',
                       }}
                       customStyle={`
                   * { font-family: 'Faustina'; line-height: 20px; -webkit-user-select: none; -webkit-touch-callout: none; }
@@ -259,7 +260,7 @@ const Details = ({
                       p, li { font-family: 'Faustina', sans-serif; line-height: 1.2; padding: 0px 8px; color: #000; font-weight: 500; font-size: ${fontSize}px; }
                     </style>
                   `,
-                        baseUrl: 'https://twitter.com',
+                        baseUrl: Platform.OS === 'android' ? 'https://twitter.com' : '',
                       }}
                       onShouldStartLoadWithRequest={request => {
                         // Check if the URL should be opened in an external browser
@@ -275,6 +276,7 @@ const Details = ({
                       javaScriptEnabled={true}
                       scalesPageToFit={false}
                       allowsFullscreenVideo={true}
+                      scrollEnabled={false}
                       viewportContent={'width=device-width, user-scalable=no'}
                     />
                     // </TouchableWithoutFeedback>

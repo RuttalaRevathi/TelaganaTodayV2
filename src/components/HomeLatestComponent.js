@@ -2,7 +2,6 @@
 import React from 'react';
 import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
 import { blackcolor, commonstyles, graycolor, marooncolor } from '../styles/commonstyles';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 class HomeLatestComponent extends React.PureComponent {
     render() {
@@ -21,7 +20,7 @@ class HomeLatestComponent extends React.PureComponent {
                 }}>
                 <View style={{ padding: 5,flexDirection:'row' }}>
                 <View style={{top:11}}>
-              <FontAwesome name="circle" size={10} color={marooncolor} />
+              <Image style={{width:10,height:10}} source={require('../Assets/Images/list-disc.png')} />
             </View>
                     <View  style={commonstyles.homeLatestTextView}>
                         <Text numberOfLines={2} style={commonstyles.Homeletesttext}>

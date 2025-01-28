@@ -21,7 +21,7 @@ export default class AboutUs extends Component {
     return (
       <SafeAreaView styles={commonstyles.container}>
               <SubHeader
-          title={'About Us '}
+          title={'About Us'}
           isShare={true}
           leftBtnClick={() => this.props.navigation.goBack()}
          

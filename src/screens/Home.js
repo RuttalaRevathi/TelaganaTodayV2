@@ -245,7 +245,7 @@ const Home = ({
           />
           {/* Ap */}
           <HomeUINew
-            categoryName="Ap News"
+            categoryName="AP News"
             data={apData?.data}
             navigationScreen="AP News"
             navigation={navigation}
@@ -304,7 +304,7 @@ const Home = ({
           />
           {/* nri */}
           <HomeUINew
-            categoryName="Nri"
+            categoryName="NRI"
             data={nriData?.data}
             navigationScreen="NRI"
             navigation={navigation}
@@ -318,9 +318,9 @@ const Home = ({
           />
           {/* columns */}
           <HomeUINew
-            categoryName="Columuns"
+            categoryName="Columns"
             data={columunsData?.data}
-            navigationScreen="Columuns"
+            navigationScreen="Columns"
             navigation={navigation}
           />
           {/* education */}

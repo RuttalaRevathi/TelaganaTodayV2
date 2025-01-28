@@ -190,15 +190,15 @@ export default class SideMenu extends Component {
                                 this.props.navigation.navigate('Cartoon');
                             }}
                         />
-                        {/* Columuns */}
+                        {/* Columns */}
                         <DrawerItem style={sideMenuStyle.item}
                             icon={({ color, size }) =>
                                 <Image source={require('../Assets/Images/sidemenuIcons/columns.png')} style={sideMenuStyle.icon} />
                             }
-                            label="Columuns"
+                            label="Columns"
                             labelStyle={sideMenuStyle.text}
                             onPress={() => {
-                                this.props.navigation.navigate('Columuns');
+                                this.props.navigation.navigate('Columns');
                             }}
                         />
                         {/* Education Today */}

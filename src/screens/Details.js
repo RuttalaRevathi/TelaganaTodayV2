@@ -32,6 +32,7 @@ import DetailsComponentOne from '../components/DetailsComponentOne';
 import DetailsComponentThree from '../components/DetailsComponentThree';
 import SubHeader from '../components/SubHeader';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -48,7 +49,7 @@ const Details = ({
   const [renderWebView, setRenderWebView] = useState(false);
   const Scrollref = useRef(null);
   const [offset, setOffset] = useState(0);
-
+  const navigate = useNavigation();
   useEffect(() => {
     const timer = setTimeout(() => {
       setRenderWebView(true);
@@ -75,19 +76,13 @@ const Details = ({
   };
 
   const source = route?.params?.item?.content?.rendered || '';
-  let source1 = source.replace('lazyload', 'text/javascript');
+  let source1 = typeof source === 'string' ? source.replace('lazyload', 'text/javascript') : '';
 
-  const toggleFontSize = () => {
-    if (fontSize === 18) {
-      setFontSize(20);
-    } else if (fontSize === 20) {
-      setFontSize(23);
-    } else if (fontSize === 23) {
-      setFontSize(25);
-    } else {
-      setFontSize(18);
-    }
-  };
+  const fontSizes = [18, 20, 23, 25];
+const toggleFontSize = () => {
+  const nextSizeIndex = (fontSizes.indexOf(fontSize) + 1) % fontSizes.length;
+  setFontSize(fontSizes[nextSizeIndex]);
+};
 
   const renderItemOne = ({ item }) => (
     <DetailsComponentOne
@@ -118,23 +113,21 @@ const Details = ({
   const diffDays = now.diff(date, 'days');
 
   let formattedDate;
+
   if (diffSeconds < 60) {
-    formattedDate = `${diffSeconds} SECONDS AGO`;
+    formattedDate = `${diffSeconds} second${diffSeconds === 1 ? '' : 's'} ago`;
   } else if (diffMinutes < 60) {
-    formattedDate = `${diffMinutes} MINUTES AGO`;
+    formattedDate = `${diffMinutes} minute${diffMinutes === 1 ? '' : 's'} ago`;
   } else if (diffHours < 24) {
-    formattedDate = `${diffHours} HOURS AGO`;
+    formattedDate = `${diffHours} hour${diffHours === 1 ? '' : 's'} ago`;
   } else {
-    formattedDate = `${diffDays} DAYS AGO`;
+    formattedDate = `${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
   }
 
   const handleScroll = (event) => {
     setOffset(Math.floor(event.nativeEvent.contentOffset.y))
   }
 
-  const handlePressIn = () => {
-    Scrollref.current?.scrollTo({ y: -offset })
-  }
   return (
     <View style={commonstyles.container}>
       <ScrollView ref={Scrollref} onScroll={handleScroll}>
@@ -219,24 +212,24 @@ const Details = ({
                 paddingLeft: 5,
                 paddingBottom: 5,
               }}>
-              {/* <Text>{source1}</Text>
-                          {
-                            console.log(source1)
-                            
-                          } */}
+              {/* <Text>{source1}</Text> */}
+              {/* {
+                console.log(source1)
+
+              } */}
               <View
                 style={{
                   justifyContent: 'center',
                 }}>
                 {renderWebView &&
                   // <TouchableWithoutFeedback onPress={handlePressIn}>
-                    <AutoHeightWebView
-                      style={{
-                        width: Dimensions.get('window').width - 15,
-                        marginTop: 10,
-                        pointerEvents: 'none',
-                      }}
-                      customStyle={`
+                  <AutoHeightWebView
+                    style={{
+                      width: Dimensions.get('window').width - 15,
+                      marginTop: 10,
+                      pointerEvents: 'none',
+                    }}
+                    customStyle={`
                   * { font-family: 'Faustina'; line-height: 20px; -webkit-user-select: none; -webkit-touch-callout: none; }
                   p { font-size: ${fontSize}px; text-align: left; font-family: 'Faustina'; line-height: 20px; font-weight: none; }
                   p img { width: 100%; height: inherit; }
@@ -250,8 +243,8 @@ const Details = ({
                   }
                   .wp-video{ width:100% !important;}
                 `}
-                      source={{
-                        html: `
+                    source={{
+                      html: `
                     ${source1}
                     <style>
                       @import url('https://fonts.googleapis.com/css2?family=Faustina&display=swap');
@@ -259,26 +252,33 @@ const Details = ({
                       p, li { font-family: 'Faustina', sans-serif; line-height: 1.2; padding: 0px 8px; color: #000; font-weight: 500; font-size: ${fontSize}px; }
                     </style>
                   `,
-                        baseUrl: 'https://twitter.com',
-                      }}
-                      onShouldStartLoadWithRequest={request => {
-                        // Check if the URL should be opened in an external browser
-                        if (
-                          request.url !== 'about:blank' &&
-                          request.url.startsWith('http')
-                        ) {
-                          Linking.openURL(request.url); // Open the URL in the browser
-                          return false; // Prevent WebView from loading the URL
-                        }
-                        return true; // Allow WebView to load other content
-                      }}
-                      javaScriptEnabled={true}
-                      scalesPageToFit={false}
-                      allowsFullscreenVideo={true}
-                      viewportContent={'width=device-width, user-scalable=no'}
-                    />
-                    // </TouchableWithoutFeedback>
-                    }
+                      baseUrl: 'https://twitter.com',
+                    }}
+                    onShouldStartLoadWithRequest={request => {
+                      // Check if the URL should be opened in an external browser
+                      if (
+                        request.url !== 'about:blank' &&
+                        request.url.startsWith('http')
+                      ) {
+                        const urlSegments = request.url.split("/");
+                        const tagName = urlSegments[urlSegments.length - 1]; // Get the last segment of the URL
+
+                        console.log(tagName, "tagName");
+                        // Navigate to the TagScreen and pass the tagName
+                        navigation.navigate('TagScreen', { tagName });
+
+                        // Linking.openURL(request.url); // Open the URL in the browser
+                        return false; // Prevent WebView from loading the URL
+                      }
+                      return true; // Allow WebView to load other content
+                    }}
+                    javaScriptEnabled={true}
+                    scalesPageToFit={false}
+                    allowsFullscreenVideo={true}
+                    viewportContent={'width=device-width, user-scalable=no'}
+                  />
+                  // </TouchableWithoutFeedback>
+                }
               </View>
             </View>
           </View>
@@ -305,14 +305,14 @@ const Details = ({
                 }}
               />
               <FlatList
-                data={latestNews.data.slice(0, 6)}
+                data={latestNews?.data?.slice(0, 6)}
                 renderItem={renderItemTwo}
               />
             </View>
           ) : (
             <View style={{ paddingHorizontal: 10 }}>
               <FlatList
-                data={latestNews.data.slice(0, 6)}
+                data={latestNews?.data?.slice(0, 6)}
                 renderItem={renderItemTwo}
                 keyExtractor={(item, index) => index.toString()}
               />

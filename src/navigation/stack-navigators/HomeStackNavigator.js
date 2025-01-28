@@ -12,6 +12,7 @@ import AboutUs from '../../screens/contactScreens/AboutUs';
 import Webstories from '../../screens/Webstories';
 import ShortsScreen from '../../screens/Shorts';
 import BottomTabNavigator from '../BottomTabNavigator';
+import TagScreen from '../../screens/Tag';
 
 
 const Stack = createStackNavigator();
@@ -30,6 +31,7 @@ const HomeStackNavigator = () => {
       <Stack.Screen name="CartoonArticle" component={CartoonArticle} />
       <Stack.Screen name="Webstories" component={Webstories} />
       <Stack.Screen name="Contact" component={ContactUs} />
+      <Stack.Screen name="TagScreen" component={TagScreen} />
       <Stack.Screen name="About" component={AboutUs} options={{ headerShown: false }} 
  />
     </Stack.Navigator>

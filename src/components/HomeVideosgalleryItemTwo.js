@@ -30,12 +30,14 @@ class HomeVideosgalleryItemTwo extends React.PureComponent {
 
         let formattedDate;
         if (diffSeconds < 60) {
-            formattedDate = `${diffSeconds} seconds ago`;
-        } else if (diffMinutes < 60) {
-            formattedDate = `${diffMinutes} minutes ago`;
-        } else {
-            formattedDate = `${diffHours} hours ago`;
-        }
+            formattedDate = `${diffSeconds} second${diffSeconds === 1 ? '' : 's'} ago`;
+          } else if (diffMinutes < 60) {
+            formattedDate = `${diffMinutes} minute${diffMinutes === 1 ? '' : 's'} ago`;
+          } else if (diffHours < 24) {
+            formattedDate = `${diffHours} hour${diffHours === 1 ? '' : 's'} ago`;
+          } else {
+            formattedDate = `${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
+          }
         const defaultImage = require('../Assets/Images/no_image.png');
         const imageUrl = this.props?.item?.web_featured_image
             ? { uri: this.props?.item?.web_featured_image }

@@ -27,11 +27,13 @@ class HomeVideosgalleryItemOne extends React.PureComponent {
   
       let formattedDate;
       if (diffSeconds < 60) {
-        formattedDate = `${diffSeconds} seconds ago`;
+        formattedDate = `${diffSeconds} second${diffSeconds === 1 ? '' : 's'} ago`;
       } else if (diffMinutes < 60) {
-        formattedDate = `${diffMinutes} minutes ago`;
+        formattedDate = `${diffMinutes} minute${diffMinutes === 1 ? '' : 's'} ago`;
+      } else if (diffHours < 24) {
+        formattedDate = `${diffHours} hour${diffHours === 1 ? '' : 's'} ago`;
       } else {
-        formattedDate = `${diffHours} hours ago`;
+        formattedDate = `${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
       }
     return (
       <View style={{ marginRight: 5, marginLeft: 10, }}>

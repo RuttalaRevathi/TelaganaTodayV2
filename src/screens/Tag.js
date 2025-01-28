@@ -12,19 +12,26 @@ const TagScreen = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchParentData(tagName);
-      setParentData(data?.data);
+      try {
+        const data = await fetchParentData(tagName); // Fetch data with the tag name
+        setParentData(data?.data);
+      } catch (error) {
+        console.error('Error fetching parent data:', error);
+      }
     };
     fetchData();
   }, [tagName]);
 
   const fetchParentData = async (tag) => {
     try {
-      const response = await fetch(`https://telanganatoday.com/wp-json/ttnews/v1/tag-api?tag_name=${tag}`);
+      const response = await fetch(
+        `https://telanganatoday.com/wp-json/ttnews/v1/tag-api?tag_name=${encodeURIComponent(tag)}`
+      );
       const jsonData = await response.json();
       return jsonData;
     } catch (error) {
       console.error('Error fetching parent data:', error);
+      return null; // Return null in case of an error
     }
   };
 

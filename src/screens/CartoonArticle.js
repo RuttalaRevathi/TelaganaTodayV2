@@ -49,14 +49,14 @@ const CartoonArticle = ({ navigation, relatedData, relatedLoading,
 
     let formattedDate;
     if (diffSeconds < 60) {
-        formattedDate = `${diffSeconds} SECONDS AGO`;
-    } else if (diffMinutes < 60) {
-        formattedDate = `${diffMinutes} MINUTES AGO`;
-    } else if (diffHours < 24) {
-        formattedDate = `${diffHours} HOURS AGO`;
-    } else {
-        formattedDate = `${diffDays} DAYS AGO`;
-    }
+        formattedDate = `${diffSeconds} second${diffSeconds === 1 ? '' : 's'} ago`;
+      } else if (diffMinutes < 60) {
+        formattedDate = `${diffMinutes} minute${diffMinutes === 1 ? '' : 's'} ago`;
+      } else if (diffHours < 24) {
+        formattedDate = `${diffHours} hour${diffHours === 1 ? '' : 's'} ago`;
+      } else {
+        formattedDate = `${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
+      }
     return (
         // <View>
         //     <Text> {route?.params?.item?.title?.rendered}</Text>

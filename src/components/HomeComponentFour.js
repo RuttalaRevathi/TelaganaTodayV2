@@ -21,15 +21,15 @@ class HomeComponentFour extends React.PureComponent {
         const diffDays = now.diff(date, 'days');
 
         let formattedDate;
-    if (diffSeconds < 60) {
-      formattedDate = `${diffSeconds} SECONDS AGO`;
-    } else if (diffMinutes < 60) {
-      formattedDate = `${diffMinutes} MINUTES AGO`;
-    } else if (diffHours < 24) {
-      formattedDate = `${diffHours} HOURS AGO`;
-    } else {
-      formattedDate = `${diffDays} DAYS AGO`;
-    }
+        if (diffSeconds < 60) {
+            formattedDate = `${diffSeconds} second${diffSeconds === 1 ? '' : 's'} ago`;
+          } else if (diffMinutes < 60) {
+            formattedDate = `${diffMinutes} minute${diffMinutes === 1 ? '' : 's'} ago`;
+          } else if (diffHours < 24) {
+            formattedDate = `${diffHours} hour${diffHours === 1 ? '' : 's'} ago`;
+          } else {
+            formattedDate = `${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
+          }
         return (
             <View>
                 <TouchableOpacity

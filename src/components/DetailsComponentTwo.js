@@ -22,13 +22,13 @@ class DetailsComponentTwo extends React.PureComponent {
 
     let formattedDate;
     if (diffSeconds < 60) {
-      formattedDate = `${diffSeconds} SECONDS AGO`;
+      formattedDate = `${diffSeconds} second${diffSeconds === 1 ? '' : 's'} ago`;
     } else if (diffMinutes < 60) {
-      formattedDate = `${diffMinutes} MINUTES AGO`;
+      formattedDate = `${diffMinutes} minute${diffMinutes === 1 ? '' : 's'} ago`;
     } else if (diffHours < 24) {
-      formattedDate = `${diffHours} HOURS AGO`;
+      formattedDate = `${diffHours} hour${diffHours === 1 ? '' : 's'} ago`;
     } else {
-      formattedDate = `${diffDays} DAYS AGO`;
+      formattedDate = `${diffDays} day${diffDays === 1 ? '' : 's'} ago`;
     }
     return (
       <View>

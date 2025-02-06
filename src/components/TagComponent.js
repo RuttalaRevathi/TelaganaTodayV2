@@ -38,9 +38,11 @@ class TagComponent extends React.PureComponent {
     const imageUrl = this.props?.item?.web_featured_image
       ? { uri: this.props?.item?.web_featured_image }
       : defaultImage;
+console.log(this.props?.item?.web_featured_image,"this.props?.item?.web_featured_image");
 
     return (
       <View>
+        <Text>Tag</Text>
         <TouchableOpacity
           onPress={() => {
             this.props.navigation.navigate('Details', {

@@ -9,9 +9,6 @@ import VideoArticle from '../../screens/VideoArticle';
 import CartoonArticle from '../../screens/CartoonArticle';
 import ContactUs from '../../screens/contactScreens/ContactUs';
 import AboutUs from '../../screens/contactScreens/AboutUs';
-import Webstories from '../../screens/Webstories';
-import ShortsScreen from '../../screens/Shorts';
-import BottomTabNavigator from '../BottomTabNavigator';
 import TagScreen from '../../screens/Tag';
 
 
@@ -29,7 +26,6 @@ const HomeStackNavigator = () => {
       <Stack.Screen name="Details" component={Details} options={{ headerShown: false }}/>
       <Stack.Screen name="VideoArticle" component={VideoArticle} />
       <Stack.Screen name="CartoonArticle" component={CartoonArticle} />
-      <Stack.Screen name="Webstories" component={Webstories} />
       <Stack.Screen name="Contact" component={ContactUs} />
       <Stack.Screen name="TagScreen" component={TagScreen} />
       <Stack.Screen name="About" component={AboutUs} options={{ headerShown: false }} 

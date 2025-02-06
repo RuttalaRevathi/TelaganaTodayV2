@@ -1,47 +1,75 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import TagUI from '../components/TagUI';
+import {
+  Image,
+  View,
+  TouchableOpacity,
+  FlatList
+} from 'react-native'; import TagComponent from '../components/TagComponent';
 
 const TagScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const { tagName } = route.params; // Get the tag name from route params
 
   const [parentData, setParentData] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchParentData(tagName); // Fetch data with the tag name
-        setParentData(data?.data);
-      } catch (error) {
-        console.error('Error fetching parent data:', error);
-      }
-    };
-    fetchData();
-  }, [tagName]);
+    fetchParentData();
+  }, [route]);
 
-  const fetchParentData = async (tag) => {
+  const fetchParentData = async () => {
     try {
+      const tag = route.params?.url;
+      console.log(tag, "tag");
+
       const response = await fetch(
-        `https://telanganatoday.com/wp-json/ttnews/v1/tag-api?tag_name=${encodeURIComponent(tag)}`
+        `https://telanganatoday.com/wp-json/ttnews/v1/tag-api?tag_name=${tag}`
       );
       const jsonData = await response.json();
-      return jsonData;
+      setParentData(jsonData);
     } catch (error) {
       console.error('Error fetching parent data:', error);
       return null; // Return null in case of an error
     }
   };
+  // console.log(parentData, "parentData");
+  const renderItem = ({ item }) => (
+    <TagComponent
+      tag={item}
+      navigation={props.navigation}
+    />
+  );
 
   return (
-    <TagUI
-      data={parentData}
-      navigation={navigation}
-      title={tagName}
-      categoryName={tagName}
-    />
+    <>
+      <View>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+        >
+          <Image
+            source={require('../Assets/Images/arrow.png')}
+            style={{ width: 22, height: 22 }}
+          />
+        </TouchableOpacity>
+      </View>
+      <View>
+        {/* FlatList to display posts */}
+        <FlatList
+          data={parentData}
+          contentContainerStyle={{ padding: 20 }}
+          // keyExtractor={(item) => item.toString()}
+          renderItem={({item}) => (
+            <View>
+              <Text>
+                Tag
+              </Text>
+            </View>
+          )}
+
+        />
+      </View>
+    </>
   );
 };
 

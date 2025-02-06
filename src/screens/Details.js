@@ -51,6 +51,8 @@ const Details = ({
   const Scrollref = useRef(null);
   const [offset, setOffset] = useState(0);
   const navigate = useNavigation();
+  // console.log(route?.params?.item?.id, " route?.params?.item?.");
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setRenderWebView(true);
@@ -80,10 +82,10 @@ const Details = ({
   let source1 = typeof source === 'string' ? source.replace('lazyload', 'text/javascript') : '';
 
   const fontSizes = [18, 20, 23, 25];
-const toggleFontSize = () => {
-  const nextSizeIndex = (fontSizes.indexOf(fontSize) + 1) % fontSizes.length;
-  setFontSize(fontSizes[nextSizeIndex]);
-};
+  const toggleFontSize = () => {
+    const nextSizeIndex = (fontSizes.indexOf(fontSize) + 1) % fontSizes.length;
+    setFontSize(fontSizes[nextSizeIndex]);
+  };
 
   const renderItemOne = ({ item }) => (
     <DetailsComponentOne
@@ -128,7 +130,24 @@ const toggleFontSize = () => {
   const handleScroll = (event) => {
     setOffset(Math.floor(event.nativeEvent.contentOffset.y))
   }
+  const handleWebViewRequest = request => {
+    const url = request?.url;
+    console.log(url, "url");
 
+    if (url.includes('telanganatoday.com/tag/')) {
+      const splitURL = url.split("/");
+    let category = splitURL.filter(Boolean).pop();
+    category = decodeURIComponent(category);
+    console.log(category, "Extracted Tag");
+      navigation.navigate('TagScreen', {
+        url: category,
+      });
+      return false;
+    }
+
+
+    return true;
+  };
   return (
     <View style={commonstyles.container}>
       <ScrollView ref={Scrollref} onScroll={handleScroll}>
@@ -214,7 +233,7 @@ const toggleFontSize = () => {
                 paddingBottom: 5,
               }}>
               {/* <Text>{source1}</Text> */}
-              {/* {
+          {/* {
                 console.log(source1)
 
               } */}
@@ -224,13 +243,13 @@ const toggleFontSize = () => {
                 }}>
                 {renderWebView &&
                   // <TouchableWithoutFeedback onPress={handlePressIn}>
-                    <AutoHeightWebView
-                      style={{
-                        width: Dimensions.get('window').width - 15,
-                        marginTop: 10,
-                        pointerEvents: 'auto',
-                      }}
-                      customStyle={`
+                  <AutoHeightWebView
+                    style={{
+                      width: Dimensions.get('window').width - 15,
+                      marginTop: 10,
+                      // pointerEvents: 'auto',
+                    }}
+                    customStyle={`
                   * { font-family: 'Faustina'; line-height: 20px; -webkit-user-select: none; -webkit-touch-callout: none; }
                   p { font-size: ${fontSize}px; text-align: left; font-family: 'Faustina'; line-height: 20px; font-weight: none; }
                   p img { width: 100%; height: inherit; }
@@ -253,27 +272,17 @@ const toggleFontSize = () => {
                       p, li { font-family: 'Faustina', sans-serif; line-height: 1.2; padding: 0px 8px; color: #000; font-weight: 500; font-size: ${fontSize}px; }
                     </style>
                   `,
-                        baseUrl: Platform.OS === 'android' ? 'https://twitter.com' : '',
-                      }}
-                      onShouldStartLoadWithRequest={request => {
-                        // Check if the URL should be opened in an external browser
-                        if (
-                          request.url !== 'about:blank' &&
-                          request.url.startsWith('http')
-                        ) {
-                          Linking.openURL(request.url); // Open the URL in the browser
-                          return false; // Prevent WebView from loading the URL
-                        }
-                        return true; // Allow WebView to load other content
-                      }}
-                      javaScriptEnabled={true}
-                      scalesPageToFit={false}
-                      allowsFullscreenVideo={true}
-                      scrollEnabled={false}
-                      viewportContent={'width=device-width, user-scalable=no'}
-                    />
-                    // </TouchableWithoutFeedback>
-                    }
+                      baseUrl: Platform.OS === 'android' ? 'https://twitter.com' : '',
+                    }}
+                    onShouldStartLoadWithRequest={handleWebViewRequest}
+                    javaScriptEnabled={true}
+                    scalesPageToFit={false}
+                    allowsFullscreenVideo={true}
+                    scrollEnabled={false}
+                    viewportContent={'width=device-width, user-scalable=no'}
+                  />
+                  // </TouchableWithoutFeedback>
+                }
               </View>
             </View>
           </View>

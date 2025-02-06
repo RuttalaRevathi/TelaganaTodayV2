@@ -5,6 +5,8 @@ import { commonstyles } from '../styles/commonstyles';
 import TagComponent from './TagComponent';  // Assuming you have a TagComponent to display individual tags
 
 function TagUI(props) {
+  // console.log(props?.data,"props");
+  
   const renderItem = ({ item }) => (
     <TagComponent
       tag={item}
@@ -19,7 +21,7 @@ function TagUI(props) {
           <FlatList
             data={props?.data}
             renderItem={renderItem}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(item, index) => item.toString()}
           />
         ) : (
           <View style={commonstyles.spinnerView}>

@@ -14,6 +14,7 @@ export const CategoryUrl = 'category-api?cat_name=';
 export const LatestUrl = 'latest-news-api';
 export const WebstoriesUrl = 'webstories-api';
 export const RelatedUrl = 'article-related-api';
+export const ArticleDataByIdUrl = 'article-data-by-id-api';
 
 // Category Urls
 
@@ -36,11 +37,3 @@ export const Reviews = 'reviews';
 export const Property = 'property';
 export const Videos = 'videos';
 export const Lifestyle = 'lifestyle';
-
-
-
-
-
-
-
-

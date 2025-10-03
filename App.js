@@ -1,9 +1,16 @@
 /* eslint-disable prettier/prettier */
-import React, { useEffect } from 'react';
-import { StyleSheet, StatusBar, Alert } from 'react-native';
-import { Provider } from 'react-redux';
-import { NavigationContainer } from '@react-navigation/native';
-import { store } from './src/redux/store';
+import React, {useEffect} from 'react';
+import {
+  StyleSheet,
+  StatusBar,
+  Alert,
+  PermissionsAndroid,
+  Linking,
+  Platform,
+} from 'react-native';
+import {Provider} from 'react-redux';
+import {Link, NavigationContainer} from '@react-navigation/native';
+import {store} from './src/redux/store';
 import DrawerNavigator from './src/navigation/DrawerNavigator';
 import getSliderAction from './src/redux/actions/getSliderAction';
 import getLatestNewsAction from './src/redux/actions/getLatestNewsAction';
@@ -26,24 +33,126 @@ import getEducationAction from './src/redux/actions/getEducationAction';
 import getReviewsAction from './src/redux/actions/getReviewsAction';
 import getPropertyAction from './src/redux/actions/getPropertyAction';
 import getLifestyleAction from './src/redux/actions/getLifestyleAction';
-import { off_white } from './src/styles/commonstyles';
+import {off_white} from './src/styles/commonstyles';
 import getWebstoriesAction from './src/redux/actions/getWebstoriesAction';
-import { navigationRef } from './src/navigation/NavigationService';
 import NetInfo from '@react-native-community/netinfo';
-import { useState } from 'react';
+import {useState} from 'react';
 import getRelatedAction from './src/redux/actions/getRelatedAction';
 import Toast from 'react-native-toast-message';
 import SplashScreen from 'react-native-splash-screen';
+import iZooto from 'react-native-izooto';
+import {request, RESULTS} from 'react-native-permissions';
+import {navigationRef} from './src/navigation/NavigationService';
 
 const App = () => {
   const [isConnected, setIsConnected] = useState(null);
   const [connectionType, setConnectionType] = useState(null);
 
-  useEffect(()=> {
-    setTimeout(()=>{
-      SplashScreen.hide();
-    }, 2000)
-  }, [])
+  const checkNotificationPermission = async () => {
+    try {
+      if (Platform.OS === 'android') {
+        if (Platform.Version >= 33) {
+          const permission = PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS;
+          const status = await PermissionsAndroid.request(permission, {
+            title: 'Notification Permission',
+            message:
+              'This app needs notification permission to send you updates.',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+          });
+
+          if (status === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log('Notifications permission granted');
+          } else {
+            console.log('Notifications permission denied');
+            Alert.alert(
+              'Permission Required',
+              'Please enable notifications from settings.',
+            );
+          }
+        }
+      } else {
+        // iOS permission handling
+        const status = await request('ios.permission.NOTIFICATION');
+        if (status === RESULTS.GRANTED) {
+          console.log('Notifications enabled for iOS');
+        } else {
+          Alert.alert(
+            'Notifications Disabled',
+            'You have disabled notifications. Please enable them in settings.',
+            [
+              {text: 'Cancel', style: 'cancel'},
+              {
+                text: 'Go to Settings',
+                onPress: () => Linking.openSettings(),
+              },
+            ],
+          );
+        }
+      }
+    } catch (error) {
+      console.error('Error checking notification permission:', error);
+    }
+  };
+  const linking = {
+    prefixes: ['https://app'],
+    config: {
+      screens: {
+        Details: 'Details',
+      },
+    },
+  };
+  // const linking = {
+  //   prefixes: ['https://app'],
+  //   config: {
+  //     screens: {
+  //       TopTab: {
+  //         screens: {
+  //           HomeStack: {
+  //             screens: {
+  //               Details: 'details',
+  //             },
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  // };
+
+  useEffect(() => {
+    SplashScreen.hide();
+    checkNotificationPermission();
+    iZooto.initAndroid(false);
+    iZooto.setSubscription(true);
+    iZooto.onTokenReceivedListener(token => {
+      console.log('Token Received', token); // THIS CAN BE CHANGED AS PER REQUIREMENT
+    });
+    iZooto.onNotificationReceivedListener(payload => {
+      console.log('Notification Payload', payload); // THIS CAN BE CHANGED AS PER REQUIREMENT
+    });
+    iZooto.onNotificationOpenedListener(async data => {
+      const jsonString = `${data}`;
+      const outerObject = JSON.parse(jsonString);
+      const additionalData = JSON.parse(outerObject.additionalData);
+      console.log('Parsed additionalData:', additionalData);
+
+      if (additionalData.id) {
+        try {
+          navigationRef.current?.navigate('Details', {
+            item: {
+              id: additionalData.id,
+              isNotification: true,
+            },
+          });
+        } catch (err) {
+          console.error('❌ Failed to parse additionalData:', err);
+        }
+      } else {
+        console.log('⚠️ No additionalData present in payload');
+      }
+    });
+  }, []);
 
   useEffect(() => {
     store.dispatch(getSliderAction());
@@ -87,7 +196,6 @@ const App = () => {
       } else {
         Toast.hide();
       }
-      
 
       // Update state to keep track of the connection status
       setConnectionType(newConnectionType);
@@ -99,35 +207,15 @@ const App = () => {
     };
   }, []);
 
-
   return (
     <Provider store={store}>
       <StatusBar barStyle="dark-content" backgroundColor={off_white} />
-      <NavigationContainer ref={navigationRef}>
+      <NavigationContainer ref={navigationRef} linking={linking}>
         <DrawerNavigator />
       </NavigationContainer>
       <Toast />
     </Provider>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;

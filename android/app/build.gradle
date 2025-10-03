@@ -1,6 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
+apply plugin: 'com.google.gms.google-services'
 
 /**
  * This is the configuration block to customize your React Native Android app.
@@ -81,6 +82,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 4
         versionName "1.0"
+        manifestPlaceholders = [
+     	    izooto_app_id : '041f351070e36df8152d02b7e40f0031992e8efa'
+        ]
     }
     signingConfigs {
         apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
@@ -91,7 +95,7 @@ android {
             keyPassword 'android'
         }
         release {
-          storeFile file('D:/Revathi/ReactNative/TelanganaToday/tt.keystore')                     
+          storeFile file('D:/MANOJ/mobileapp/TelaganaTodayV2/tt.keystore')                     
             storePassword 'tt@123'
             keyAlias 'tt'
             keyPassword 'tt@123'

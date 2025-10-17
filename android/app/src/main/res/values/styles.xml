@@ -4,5 +4,6 @@
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@drawable/splashsreen</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
     </style>
 </resources>

@@ -7,6 +7,7 @@ import {
   PermissionsAndroid,
   Linking,
   Platform,
+  SafeAreaView,
 } from 'react-native';
 import {Provider} from 'react-redux';
 import {Link, NavigationContainer} from '@react-navigation/native';
@@ -209,13 +210,22 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <StatusBar barStyle="dark-content" backgroundColor={off_white} />
-      <NavigationContainer ref={navigationRef} linking={linking}>
-        <DrawerNavigator />
-      </NavigationContainer>
-      <Toast />
+      <SafeAreaView style={styles.container} edges={['bottom']}>
+        <StatusBar barStyle="dark-content" backgroundColor={off_white} />
+        <NavigationContainer ref={navigationRef} linking={linking}>
+          <DrawerNavigator />
+        </NavigationContainer>
+        <Toast />
+      </SafeAreaView>
     </Provider>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: off_white,
+  },
+});
 
 export default App;

@@ -80,7 +80,7 @@ android {
         applicationId "com.telanganatodaynews"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4
+        versionCode 6
         versionName "1.0"
         manifestPlaceholders = [
      	    izooto_app_id : '041f351070e36df8152d02b7e40f0031992e8efa'
